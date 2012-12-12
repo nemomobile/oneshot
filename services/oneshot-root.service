@@ -1,0 +1,12 @@
+[Unit]
+Description=Oneshot stuff for root
+After=hwclocks.service
+Requires=dbus.service dsme.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/oneshot
+
+[Install]
+WantedBy=multi-user.target

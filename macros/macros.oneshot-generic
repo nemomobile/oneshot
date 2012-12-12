@@ -1,0 +1,2 @@
+%define _default_uid %(grep "^UID_MIN" /etc/login.defs |  tr -s " " | cut -d " " -f2)
+%define _system_groupadd() getent group %{1} >/dev/null || groupadd -r %{1}

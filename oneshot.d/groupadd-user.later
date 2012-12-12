@@ -1,0 +1,14 @@
+#!/bin/sh
+# Copyright (C) 2012 Jolla Oy
+# Contact: Pekka Lundstrom  <pekka.lundstrom@jollamobile.com>
+#
+# Scan dir /etc/oneshot.d/group.d/
+# and for any group names there call groupadd-user
+# After succesfull run, remove group name
+
+set +e
+for DNAME in /etc/oneshot.d/group.d/*; do
+    GNAME=`basename $DNAME`
+    /usr/bin/groupadd-user $GNAME --no-later && rm $DNAME
+done
+

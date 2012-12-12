@@ -1,0 +1,31 @@
+#!/bin/sh
+# Copyright (C) 2012 Jolla Oy
+# Contact: Pekka Lundstrom  <pekka.lundstrom@jollamobile.com>
+#
+# Run all oneshot scripts indicated by links and after
+# successful run remove the link
+
+# Define PATH in case we are called in build time (PATH empty or sbin not included)
+if [ -z "$PATH" ] ||
+   [[ "$PATH" != *sbin* ]]; then
+    PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin"
+fi
+
+if [ "$1" = "--mic" ]; then
+    export MIC_RUN=1
+    if [ $UID -eq 0 ]; then
+        mkdir -p /var/run/dbus
+        dbus-daemon --system
+    else
+        eval $(dbus-launch)
+        export DBUS_SESSION_BUS_ADDRESS
+        export DBUS_SESSION_BUS_PID
+    fi
+fi
+
+set +e
+LINKS=$(find /etc/oneshot.d/$UID/ -maxdepth 1 -type l | sort)
+for SCRIPTLET in $LINKS; do
+    $SCRIPTLET && rm $SCRIPTLET && echo "oneshot: $SCRIPTLET - OK" || echo "oneshot: $SCRIPTLET - FAIL"
+done
+exit 0

@@ -13,6 +13,6 @@ oneshot.files = oneshot.d/*
 oneshot.path  = $$(ONESHOTDIR)
 
 macros.files  = macros/*
-macros.path   = /etc/rpm/macros
+macros.path   = /etc/rpm/
 
 INSTALLS += scripts services userservices oneshot macros

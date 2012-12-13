@@ -11,7 +11,7 @@ BuildArch: noarch
 Group: System/Base
 License: GPLv2
 Source0: %{name}-%{version}.tar.gz
-URL: https://github.com/organizations/nemomobile
+URL: https://github.com/nemomobile/oneshot
 BuildRequires: qt-qmake, grep, systemd
 Requires(pre): /usr/bin/getent, /usr/sbin/groupadd
 Requires: /usr/bin/getent, /bin/ln, /bin/touch, /bin/sed, /bin/grep, /usr/sbin/usermod
@@ -22,15 +22,15 @@ Requires: /etc/login.defs
 
 %files
 %defattr(-,root,root,-)
-%config %{_sysconfdir}/rpm/macros/*
-%attr (775, -, -) %{_bindir}/*
+%config %{_sysconfdir}/rpm/*
+%attr (755, -, -) %{_bindir}/*
 %{_sysconfdir}/oneshot.d/
 %dir %{_sysconfdir}/oneshot.d/
 %dir %{_sysconfdir}/oneshot.d/0
 %dir %attr(775, -, oneshot) %{_sysconfdir}/oneshot.d/default/
 %dir %{_sysconfdir}/oneshot.d/group.d
 %dir %{_oneshotdir}
-%attr (775, -, -) %{_oneshotdir}/*
+%attr (755, -, -) %{_oneshotdir}/*
 %{_libdir}/systemd/user/oneshot-user.service
 %{_libdir}/systemd/user/xorg.target.wants/oneshot-user.service
 %{_unitdir}/oneshot-root.service

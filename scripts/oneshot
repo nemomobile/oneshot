@@ -12,6 +12,7 @@ if [ -z "$PATH" ] ||
 fi
 
 if [ "$1" = "--mic" ]; then
+    [ -f "/.bootstrap" ] && echo "/.bootstrap exists while running in mic-mode, which is probably not what you want"
     export MIC_RUN=1
     if [ $UID -eq 0 ]; then
         mkdir -p /var/run/dbus

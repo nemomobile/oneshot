@@ -4,7 +4,7 @@
 %define _system_groupadd() getent group %{1} >/dev/null || groupadd -r %{1}
 
 Name: oneshot
-Version: 0.3
+Version: 0.3.1
 Release: 1
 Summary: Hooks run on first start
 BuildArch: noarch

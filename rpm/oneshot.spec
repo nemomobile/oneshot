@@ -44,7 +44,7 @@ Requires: /etc/login.defs
 
 %build
 ls %{_builddir}/%{name}-%{version}/macros/
-BINDIR=%{_bindir} ONESHOTDIR=%{_oneshotdir} SERVICEDIR=%{_unitdir} USERSERVICEDIR=%{_libdir}/systemd/user qmake
+BINDIR=%{_bindir} ONESHOTDIR=%{_oneshotdir} SERVICEDIR=%{_unitdir} USERSERVICEDIR=%{_libdir}/systemd/user qmake -qt=4
 
 %install
 make INSTALL_ROOT=%{buildroot} install

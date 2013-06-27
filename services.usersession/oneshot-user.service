@@ -1,7 +1,6 @@
 [Unit]
 Description=Oneshot stuff for user
-After=xorg.service
-Requires=dbus.socket xorg.service
+Requires=dbus.socket
 
 [Service]
 Type=oneshot
@@ -9,4 +8,5 @@ RemainAfterExit=yes
 ExecStart=/usr/bin/oneshot
 
 [Install]
-WantedBy=xorg.target
+WantedBy=pre-user-session.target
+

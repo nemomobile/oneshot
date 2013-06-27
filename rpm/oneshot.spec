@@ -13,6 +13,7 @@ License: GPLv2
 Source0: %{name}-%{version}.tar.gz
 URL: https://github.com/nemomobile/oneshot
 BuildRequires: qt-qmake, grep, systemd
+Requires: systemd-user-session-targets
 Requires(pre): /usr/bin/getent, /usr/sbin/groupadd
 Requires: /usr/bin/getent, /bin/ln, /bin/touch, /bin/sed, /bin/grep, /usr/sbin/usermod
 Requires: /etc/login.defs
@@ -32,7 +33,7 @@ Requires: /etc/login.defs
 %dir %{_oneshotdir}
 %attr (755, -, -) %{_oneshotdir}/*
 %{_libdir}/systemd/user/oneshot-user.service
-%{_libdir}/systemd/user/xorg.target.wants/oneshot-user.service
+%{_libdir}/systemd/user/pre-user-session.target.wants/oneshot-user.service
 %{_unitdir}/oneshot-root.service
 %{_unitdir}/multi-user.target.wants/oneshot-root.service
 
@@ -48,16 +49,16 @@ BINDIR=%{_bindir} ONESHOTDIR=%{_oneshotdir} SERVICEDIR=%{_unitdir} USERSERVICEDI
 
 %install
 make INSTALL_ROOT=%{buildroot} install
-install -d %{buildroot}/%{_sysconfdir}/oneshot.d/
-install -d %{buildroot}/%{_sysconfdir}/oneshot.d/0/
-install -d %{buildroot}/%{_sysconfdir}/oneshot.d/default/
-install -d %{buildroot}/%{_sysconfdir}/oneshot.d/group.d/
+install -d %{buildroot}%{_sysconfdir}/oneshot.d/
+install -d %{buildroot}%{_sysconfdir}/oneshot.d/0/
+install -d %{buildroot}%{_sysconfdir}/oneshot.d/default/
+install -d %{buildroot}%{_sysconfdir}/oneshot.d/group.d/
 
-mkdir -p %{buildroot}/%{_libdir}/systemd/user/xorg.target.wants
-ln -sf ../oneshot-user.service %{buildroot}/%{_libdir}/systemd/user/xorg.target.wants/oneshot-user.service
 mkdir -p %{buildroot}%{_unitdir}/multi-user.target.wants
-ln -sf ../oneshot-root.service %{buildroot}%{_unitdir}/multi-user.target.wants/oneshot-root.service
-ln -sf ./default %{buildroot}/%{_sysconfdir}/oneshot.d/%{_default_uid}
+mkdir -p %{buildroot}%{_libdir}/systemd/user/pre-user-session.target.wants 
+ln -sf ../oneshot-root.service %{buildroot}%{_unitdir}/multi-user.target.wants/
+ln -sf ../oneshot-user.service %{buildroot}%{_libdir}/systemd/user/pre-user-session.target.wants/
+ln -sf ./default %{buildroot}%{_sysconfdir}/oneshot.d/%{_default_uid}
 
 
 %post

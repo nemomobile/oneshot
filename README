@@ -2,7 +2,7 @@ Oneshot
 -------
 
 Packages can have scripts installed into file system and they can request such
-a script to be run at next boot by creating a link to /etc/oneshot.d/<pid>/
+a script to be run at next boot by creating a link to /etc/oneshot.d/<uid>/
 
 Links created to /etc/oneshot.d/0/ get run at the beginning of the next boot
 as root. This happens before user session is started.
@@ -14,6 +14,16 @@ Links created to /etc/oneshot.d/default/ (or /etc/oneshot.d/1000/, which is a
 link to default) get executed during next boot at the very beginning of the
 user session and will be executed as normal user (nemo).
 
+oneshot
+-------
+
+Executes the scripts found under /etc/oneshot.d/$UID/
+
+Usage: oneshot [--mic]
+
+The --mic option can be used for example when building images from
+kickstart files with mic. Setting this option will export MIC_RUN,
+which can be checked in the oneshot scriptlets.
 
 add-oneshot
 -----------

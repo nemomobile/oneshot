@@ -21,9 +21,7 @@ if [ "$1" = "--mic" ]; then
         mkdir -p /var/run/dbus
         dbus-daemon --system
     else
-        eval $(dbus-launch)
-        export DBUS_SESSION_BUS_ADDRESS
-        export DBUS_SESSION_BUS_PID
+        export DBUS_SESSION_BUS_ADDRESS=$(dbus-daemon --print-address --session --fork)
     fi
 fi
 

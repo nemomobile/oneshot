@@ -58,7 +58,7 @@ while [ -n "$1" ]; do
     [ -n "$AS_USER" ] && LOCATION=default
     SAVE_OK=""
     ln -sf /usr/lib/oneshot.d/$JOB /etc/oneshot.d/$LOCATION && SAVE_OK="1"
-    if [ -n "SAVE_OK" ]; then
+    if [ -n "$SAVE_OK" ]; then
         echo "add-oneshot: /etc/oneshot.d/$LOCATION/$JOB - job saved OK"
     else
         echo "add-oneshot: /etc/oneshot.d/$LOCATION/$JOB - job saving FAILED"

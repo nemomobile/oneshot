@@ -8,7 +8,7 @@
 # Define PATH in case we are called in build time (PATH empty or sbin not included)
 if [ -z "$PATH" ] ||
    [[ "$PATH" != *sbin* ]]; then
-    PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin"
+    export PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin"
 fi
 
 [ -z "$USER" ] && export USER=`id -u -n`

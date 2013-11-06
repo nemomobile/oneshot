@@ -3,15 +3,17 @@
 # Contact: Pekka Lundstrom  <pekka.lundstrom@jollamobile.com>
 #
 # This adds oneshot job to be run later or now
-# usage: add-oneshot [--now] [--user] <name of the job> [<more job names>]
+USAGE="usage: add-oneshot [--now] [--late] [--user] <name of the job> [<more job names>]"
 # If --now is given, job is run immediately instead of postponing it later
-# if instant run fails or if --now is not given, the link is created for later run
+# If instant run fails or if --now is not given, the link is created for later run
 # If --user is given, job is run as user, otherwise as root
+# If --late is given then job is run after first boot is over (after init-done)
+# Without --late or --now job is run at the very beginning of the boot
 # Job name is given as name of the executable located in /usr/lib/oneshot.d
 # ie. no path mentioned
 
 
-[ -z "$1" ] && echo "add-oneshot: No jobs defined - FAIL" && exit 1
+[ -z "$1" ] && echo $USAGE && exit 1
 
 # Define PATH in case we are called in build time (PATH empty or sbin not included)
 if [ -z "$PATH" ] ||
@@ -22,10 +24,12 @@ fi
 set +e
 RUN_NOW=""
 AS_USER=""
+LATE_RUN=""
 
 while [ -n "$1" ]; do
     [ "$1" == "--now" ] && RUN_NOW=1 && shift && continue
     [ "$1" == "--user" ] && AS_USER=1 && shift && continue
+    [ "$1" == "--late" ] && LATE_RUN=1 && shift && continue
     # skip execution when called during bootstrap
     [ -f "/.bootstrap" ] && RUN_NOW=
     JOB=$1
@@ -56,6 +60,7 @@ while [ -n "$1" ]; do
     # Create link so we run this job later
     LOCATION=0
     [ -n "$AS_USER" ] && LOCATION=default
+    [ -n "$LATE_RUN" ] && LOCATION=${LOCATION}/late
     SAVE_OK=""
     ln -sf /usr/lib/oneshot.d/$JOB /etc/oneshot.d/$LOCATION && SAVE_OK="1"
     if [ -n "$SAVE_OK" ]; then

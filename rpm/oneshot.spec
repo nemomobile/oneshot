@@ -28,15 +28,21 @@ Requires: /etc/login.defs
 %{_sysconfdir}/oneshot.d/
 %dir %{_sysconfdir}/oneshot.d/
 %dir %{_sysconfdir}/oneshot.d/0
+%dir %{_sysconfdir}/oneshot.d/0/late
 %dir %attr(775, -, oneshot) %{_sysconfdir}/oneshot.d/default/
+%dir %attr(775, -, oneshot) %{_sysconfdir}/oneshot.d/default/late
 %dir %{_sysconfdir}/oneshot.d/group.d
 %dir %{_sysconfdir}/oneshot.d/preinit
 %dir %{_oneshotdir}
 %attr (755, -, -) %{_oneshotdir}/*
 %{_libdir}/systemd/user/oneshot-user.service
+%{_libdir}/systemd/user/oneshot-user-late.service
 %{_libdir}/systemd/user/pre-user-session.target.wants/oneshot-user.service
+%{_libdir}/systemd/user/post-user-session.target.wants/oneshot-user-late.service
 %{_unitdir}/oneshot-root.service
+%{_unitdir}/oneshot-root-late.service
 %{_unitdir}/multi-user.target.wants/oneshot-root.service
+%{_unitdir}/graphical.target.wants/oneshot-root-late.service
 
 %pre
 %_system_groupadd oneshot
@@ -50,16 +56,19 @@ BINDIR=%{_bindir} ONESHOTDIR=%{_oneshotdir} SERVICEDIR=%{_unitdir} USERSERVICEDI
 
 %install
 make INSTALL_ROOT=%{buildroot} install
-install -d %{buildroot}%{_sysconfdir}/oneshot.d/
-install -d %{buildroot}%{_sysconfdir}/oneshot.d/0/
-install -d %{buildroot}%{_sysconfdir}/oneshot.d/default/
+install -d %{buildroot}%{_sysconfdir}/oneshot.d/0/late
+install -d %{buildroot}%{_sysconfdir}/oneshot.d/default/late
 install -d %{buildroot}%{_sysconfdir}/oneshot.d/group.d/
 install -d %{buildroot}%{_sysconfdir}/oneshot.d/preinit/
 
 mkdir -p %{buildroot}%{_unitdir}/multi-user.target.wants
+mkdir -p %{buildroot}%{_unitdir}/graphical.target.wants
 mkdir -p %{buildroot}%{_libdir}/systemd/user/pre-user-session.target.wants
+mkdir -p %{buildroot}%{_libdir}/systemd/user/post-user-session.target.wants
 ln -sf ../oneshot-root.service %{buildroot}%{_unitdir}/multi-user.target.wants/
+ln -sf ../oneshot-root-late.service %{buildroot}%{_unitdir}/graphical.target.wants/
 ln -sf ../oneshot-user.service %{buildroot}%{_libdir}/systemd/user/pre-user-session.target.wants/
+ln -sf ../oneshot-user-late.service %{buildroot}%{_libdir}/systemd/user/post-user-session.target.wants/
 ln -sf ./default %{buildroot}%{_sysconfdir}/oneshot.d/%{_default_uid}
 
 

@@ -30,11 +30,13 @@ add-oneshot
 
 Adds a oneshot job to be run later or now.
 
-Usage: add-oneshot [--now] [--user] <name of the job> [<more job names>]
+Usage: add-oneshot [--now] [--late] [--user] <name of the job> [<more job names>]
 
 If --now is given, job is run immediately instead of postponing it later
 If instant run fails or if --now is not given, the link is created for later run
 If --user is given, job is run as user, otherwise as root
+If --late is given then job is run after first boot is over (after init-done)
+Without --late or --now job is run at the very beginning of the boot
 Job name is given as name of the executable located in /usr/lib/oneshot.d ie.
 no path mentioned
 

@@ -1,0 +1,11 @@
+[Unit]
+Description=Oneshot stuff for root (late run)
+After=init-done.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/oneshot --late
+
+[Install]
+WantedBy=graphical.target

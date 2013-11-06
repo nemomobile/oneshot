@@ -13,6 +13,8 @@ fi
 
 [ -z "$USER" ] && export USER=`id -u -n`
 
+LATEDIR=""
+[ "$1" == "--late" ] && LATEDIR="late/"
 
 if [ "$1" = "--mic" ]; then
     [ -f "/.bootstrap" ] && echo "/.bootstrap exists while running in mic-mode, which is probably not what you want"
@@ -26,7 +28,7 @@ if [ "$1" = "--mic" ]; then
 fi
 
 set +e
-LINKS=$(find /etc/oneshot.d/$UID/ -maxdepth 1 -type l | sort)
+LINKS=$(find /etc/oneshot.d/$UID/$LATEDIR -maxdepth 1 -type l | sort)
 for SCRIPTLET in $LINKS; do
     $SCRIPTLET && rm $SCRIPTLET && echo "oneshot: $SCRIPTLET - OK" || echo "oneshot: $SCRIPTLET - FAIL"
 done

@@ -1,6 +1,6 @@
 [Unit]
 Description=Oneshot stuff for root
-After=hwclocks.service
+After=dsme.service
 Before=systemd-user-sessions.service
 Requires=dbus.service dsme.service
 

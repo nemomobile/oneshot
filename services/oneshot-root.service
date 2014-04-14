@@ -2,7 +2,7 @@
 Description=Oneshot stuff for root
 After=dsme.service
 Before=systemd-user-sessions.service
-Requires=dbus.service dsme.service
+Requires=dbus.service
 
 [Service]
 Type=oneshot

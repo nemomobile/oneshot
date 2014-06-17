@@ -1,6 +1,13 @@
 [Unit]
 Description=Oneshot stuff for root
+# Oneshot requires time to be set properly and time
+# is set by dsme thus we require that oneshot is started
+# after dsme.service
 After=dsme.service
+# Oneshot scripts can do changes for user data and accounts
+# thus we require starting before systemd-user-sessions.service
+# There is oneshot-root-late.service for doing things as root
+# after the user session is done.
 Before=systemd-user-sessions.service
 Requires=dbus.service
 

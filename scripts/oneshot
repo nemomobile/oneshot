@@ -30,6 +30,10 @@ fi
 set +e
 LINKS=$(find /etc/oneshot.d/$UID/$LATEDIR -maxdepth 1 -type l | sort)
 for SCRIPTLET in $LINKS; do
-    $SCRIPTLET && rm $SCRIPTLET && echo "oneshot: $SCRIPTLET - OK" || echo "oneshot: $SCRIPTLET - FAIL"
+    if [ -e $SCRIPTLET ]; then
+        $SCRIPTLET && rm $SCRIPTLET && echo "oneshot: $SCRIPTLET - OK" || echo "oneshot: $SCRIPTLET - FAIL"
+    else
+        rm $SCRIPTLET && echo "oneshot: '$SCRIPTLET' pointed to non-existend file. Removing link." || echo "oneshot: failed to remove $SCRIPTLET"
+    fi
 done
 exit 0

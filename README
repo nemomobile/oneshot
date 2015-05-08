@@ -59,12 +59,12 @@ RPM packaging macros
 
 Oneshot scripts should be installed into %{_oneshotdir}
 
-Packages using oneshot functionality must Require oneshot, and
-Require(post) %{_oneshot_requires_post}
+Packages using oneshot functionality must Require oneshot, and use the
+%{_oneshot_requires_post} macro to add the necessary Requires(post) dependencies.
 
-Packages using the groupadd functionality must Require oneshot,
-Require(pre) %{_oneshot_groupadd_requires_pre} and  Require(post)
-%{_oneshot_groupadd_requires_post}
+Packages using the groupadd functionality must Require oneshot, and use the
+%{_oneshot_groupadd_requires_pre} and %{_oneshot_groupadd_requires_post} macros
+to add the necessary Requires(pre) and Requires(post) dependencies.
 
 Two convenience-macros are provided as well:
 
@@ -74,8 +74,8 @@ Two convenience-macros are provided as well:
 Example for adding a group for the default user in .spec file:
 --------------------------------------------------------------
 
-Requires(pre): %{_oneshot_groupadd_requires_pre}
-Requires(post): %{_oneshot_groupadd_requires_post}
+%{_oneshot_groupadd_requires_pre}
+%{_oneshot_groupadd_requires_post}
 Requires: oneshot
 
 %pre
@@ -88,7 +88,7 @@ Requires: oneshot
 Example for running a oneshot script in .spec file as user:
 -----------------------------------------------------------
 
-Requires(post): %{_oneshot_requires_post}
+%{_oneshot_requires_post}
 Requires: oneshot
 
 %post

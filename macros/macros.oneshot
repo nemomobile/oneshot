@@ -1,6 +1,0 @@
-%_oneshot_requires_post Requires(post): /usr/bin/getent, /bin/ln, /bin/touch, /bin/sed, /bin/grep, /etc/login.defs, /usr/bin/add-oneshot
-%_oneshot_requires_pre  Requires(pre): /usr/bin/getent, /usr/sbin/groupadd
-%_oneshot_groupadd_requires_pre %_oneshot_requires_pre
-%_oneshot_groupadd_requires_post %_oneshot_requires_post, /usr/sbin/groupadd, /usr/bin/groupadd-user
-
-%_oneshotdir %{_libdir}/oneshot.d
